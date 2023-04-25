@@ -11,4 +11,9 @@ export default class Product {
     this.source.on('create', onCreate)
 
   }
+
+  async create(data) {
+    const messsage = await this.service.save(data)
+    return messsage.toUpperCase()
+  }
 }
