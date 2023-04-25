@@ -19,6 +19,19 @@ export default class Product {
   */ 
   #isValid(data){ if(data.description.length < 5) throw INVALID_DESCRIPTION_LENGTH }
 
+  #upperCaseStrings(data){
+    return Reflect.ownKeys(data)
+      .map(key => {
+        const item = data[key]
+        return {
+          [key]: typeof item === 'string' ? item.toUpperCase() : item
+        }
+      })
+      .reduce((prev, next) => {
+        return {...prev, ...next}
+      }, {})
+  }
+
   async create(data) {
     this.#isValid(data)
     const messsage = await this.service.save(data)
