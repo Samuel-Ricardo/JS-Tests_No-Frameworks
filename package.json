@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch",
+    "test:dev": "node --test --watch",
     "test": "node --test"
   },
   "keywords": [],
