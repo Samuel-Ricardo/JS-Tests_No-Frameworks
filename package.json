@@ -5,8 +5,8 @@
   "main": "./src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "node --watch",
-    "test:dev": "node --test --watch",
+    "dev": "node --watch ./src",
+    "test:dev": "node --test --watch .",
     "test": "node --test"
   },
   "keywords": [],
