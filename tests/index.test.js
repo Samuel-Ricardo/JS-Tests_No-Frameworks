@@ -1,8 +1,8 @@
 import { describe, it, mock } from "node:test";
 import Product from "../src/product.js";
 import Service from "../src/service.js";
-import { equal, rejects, strictEqual } from "node:assert";
-import { VALID_PRODUCT_DATA } from "../src/config/tests.js";
+import { deepStrictEqual, equal, rejects, strictEqual } from "node:assert";
+import { VALID_PRODUCT_DATA, PRODUCT_SAVED_OBJ } from "../src/config/tests.js";
 import { PRODUCT_SAVED_SUCCESSFULLY } from "../src/config/messages.js";
 
 describe('Product tests', async () => {
@@ -39,9 +39,15 @@ describe('Product tests', async () => {
 
     const result = await product.create(VALID_PRODUCT_DATA)
     strictEqual(result, PRODUCT_SAVED_SUCCESSFULLY(VALID_PRODUCT_DATA.id).toUpperCase())
-   
+
     strictEqual(onCreate.mock.calls.length, 1)
     strictEqual(service.save.mock.calls.length, 1) 
+
+    const args = onCreate.mock.calls[0].arguments[0]
+    
+    console.log({args, PRODUCT_SAVED_OBJ})
+
+    deepStrictEqual(args, PRODUCT_SAVED_OBJ)
   })
 
 })
