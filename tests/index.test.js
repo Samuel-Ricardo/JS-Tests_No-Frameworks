@@ -27,16 +27,20 @@ describe('Product tests', async () => {
     const  service = { async save(params){} } 
     mock.method(service, 'save', async params => PRODUCT_SAVED_SUCCESSFULLY(params.id)) 
 
+    const onCreate = mock.fn(params => console.log('Call onCreate', params))
+
     const product = new Product({
-      onCreate: params => console.log('Call onCreate', params),
+      onCreate, 
       service
     })
 
     strictEqual(service.save.mock.calls.length, 0)
+    strictEqual(onCreate.mock.calls.length, 0)
 
     const result = await product.create(VALID_PRODUCT_DATA)
     strictEqual(result, PRODUCT_SAVED_SUCCESSFULLY(VALID_PRODUCT_DATA.id).toUpperCase())
-    
+   
+    strictEqual(onCreate.mock.calls.length, 1)
     strictEqual(service.save.mock.calls.length, 1) 
   })
 
