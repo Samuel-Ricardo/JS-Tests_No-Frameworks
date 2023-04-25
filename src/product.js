@@ -1,5 +1,6 @@
 import {EventEmitter} from 'events'
 import { INVALID_DESCRIPTION_LENGTH } from './errors.js';
+import { CREATE_PRODUCT } from './config/events.js';
 
 export default class Product {
   constructor ({
@@ -9,7 +10,7 @@ export default class Product {
 
     this.service = service;
     this.source = new EventEmitter()
-    this.source.on('create', onCreate)
+    this.source.on(CREATE_PRODUCT, onCreate)
 
   }
 
@@ -34,7 +35,11 @@ export default class Product {
 
   async create(data) {
     this.#isValid(data)
-    const messsage = await this.service.save(data)
+
+    const mappedObject = this.#upperCaseStrings(data)
+    const messsage = await this.service.save(mappedObject)
+    
+    this.source.emit(CREATE_PRODUCT, mappedObject)
     return messsage.toUpperCase()
   }
 }
